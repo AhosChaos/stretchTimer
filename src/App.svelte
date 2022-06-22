@@ -1,9 +1,7 @@
 <script>
 	
 	import { tweened } from 'svelte/motion';
-	//import Typewriter from "svelte-typewriter";
-
-
+	import { fade } from 'svelte/transition';
 	let original = 2 * 60; // TYPE NUMBER OF SECONDS HERE
 		let timer = tweened(original)
 
@@ -33,7 +31,7 @@
 
 <body>
 	{#if $timer == 0 }
-    <h1>
+    <h1 in:fade={{duration:500}} out:fade={{duration:500}}>
 		STRETCH!
 	</h1>
 	{:else}
@@ -42,8 +40,7 @@
 		<span class="secs">{seconds}</span>s!
 	</h1>
 	{/if}
-
-	<progress value={$timer/original}></progress>
+	<progress id="countdown" value={$timer/original}></progress>
 	<hr>
 	<button id="stretch" on:click={stretched}>Stretched</button>
 	<button id="close" on:click={close}>Close</button>
@@ -57,9 +54,32 @@ body {
 }
 #stretch {
 	-webkit-app-region: no-drag;
+
+	background: none;
+	border: 0;
 }
+
+#stretch:hover{
+	-webkit-app-region: no-drag;
+	background: white;
+	border: 0;
+}
+
+#countdown{
+	width: 100%;
+	height: 10px;
+}
+
+
 #close {
 	-webkit-app-region: no-drag;
+	background: none;
+	border: 0;
 }
+#close:hover {
+	-webkit-app-region: no-drag;
+	background: white;
+}
+
 
 </style>
