@@ -2,13 +2,20 @@
 	
 	import { tweened } from 'svelte/motion';
 	import { fade } from 'svelte/transition';
-	let original = 2 * 60; // TYPE NUMBER OF SECONDS HERE
-		let timer = tweened(original)
+	import display from "./components/display.svelte"
+	let original = 5; // TYPE NUMBER OF SECONDS HERE
+		let timer = tweened(original);
 
   	setInterval(() => {
-    	if ($timer > 0) $timer--;
-  	}, 1000);
+    	if ($timer > 0) 
+		{
+			$timer--;
+		
+		}
+		}, 1000);
 
+	$: hours = Math.floor($timer / 3600);
+	$: hourname = hours > 1 ? "hours" : "hour";
   	$: minutes = Math.floor($timer / 60);
   	$: minname = minutes > 1 ? "mins" : "min";
   	$: seconds = Math.floor($timer - minutes * 60)
@@ -31,12 +38,16 @@
 
 <body>
 	{#if $timer == 0 }
-    <h1 in:fade={{duration:500}} out:fade={{duration:500}}>
+	<h1 in:fade={{duration:500}}>
 		STRETCH!
 	</h1>
 	{:else}
 	<h1>
-		Stretch in <span class="mins">{minutes}</span>{minname} 
+		Stretch in 
+		<span class="hours">{hours}</span>
+		{hourname}
+		<span class="mins">{minutes}</span>
+		{minname} 
 		<span class="secs">{seconds}</span>s!
 	</h1>
 	{/if}
