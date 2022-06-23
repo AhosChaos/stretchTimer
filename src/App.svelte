@@ -3,7 +3,7 @@
 	import { tweened } from 'svelte/motion';
 	import { fade } from 'svelte/transition';
 	import display from "./components/display.svelte"
-	let original = 5; // TYPE NUMBER OF SECONDS HERE
+	let original = 2 * 60 * 60; // TYPE NUMBER OF SECONDS HERE
 		let timer = tweened(original);
 
   	setInterval(() => {
@@ -16,9 +16,9 @@
 
 	$: hours = Math.floor($timer / 3600);
 	$: hourname = hours > 1 ? "hours" : "hour";
-  	$: minutes = Math.floor($timer / 60);
+  	$: minutes = Math.floor(($timer % 3600) / 60);
   	$: minname = minutes > 1 ? "mins" : "min";
-  	$: seconds = Math.floor($timer - minutes * 60)
+  	$: seconds = Math.floor($timer - (hours * 3600) - (minutes * 60))
 
 
 
@@ -37,7 +37,7 @@
 </script>
 
 <body>
-	{#if $timer == 0 }
+	{#if $timer <= 0 }
 	<h1 in:fade={{duration:500}}>
 		STRETCH!
 	</h1>
