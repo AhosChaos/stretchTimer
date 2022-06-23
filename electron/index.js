@@ -10,12 +10,12 @@ app.whenReady().then(main);
 function main()
 {
     const window = new BrowserWindow({
-        width: 350,
+        width: 500,
         height: 175,
         show: false,
         autoHideMenuBar: true,
         frame: false,
-        resizable: true,
+        resizable: false,
         webPreferences: {
             preload: join(__dirname, "./preload.js"),
         },
@@ -39,9 +39,6 @@ function main()
         window.setAlwaysOnTop(true);
     });
 
-    ipcMain.handle('quit-app', () => {
-        app.quit();
-      });
 }
 
 ipcMain.on("quit", (event, args) => {
